@@ -17,7 +17,7 @@ class Situacao(models.Model):
         return self.descricao
 
 
-class Entradas(models.Model):
+class Entrada(models.Model):
     data = models.DateField()
     descricao = models.CharField(max_length=32)
     quantidade_de_x_dividido = models.FloatField()
@@ -30,7 +30,7 @@ class Entradas(models.Model):
         return self.descricao
 
 
-class Saidas(models.Model):
+class Saida(models.Model):
     data = models.DateField()
     descricao = models.CharField(max_length=32)
     nome_dividendo = models.CharField(max_length=12)

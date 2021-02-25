@@ -81,7 +81,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                               Valor da Divida do Proximo Mês :
+                                Valor da Divida do Proximo Mês :
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">R$: 896,00</div>
                         </div>
@@ -94,16 +94,82 @@
         </div>
     </div>
 
-    <!-- Content Row -->
-    <!-- Begin Page Content -->
+
+    <!-- Button adicionar entrada -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Entradas</h1>
+        <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
+                data-bs-target="#modal_entrada">
+            <i class="fas text-white-50"></i>
+            Adicionar Entrada
+        </button>
+    </div>
+    <!-- Final do button adicionar entrada -->
+
+    <!-- Modal adicionar entrada -->
+    <div class="modal fade" id="modal_entrada" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Entrada</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{% url 'controle:entradas' %}" method="post">
+                    {%csrf_token%}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Data: </label>
+                            <input type="date" name="data_entrada" id="data_entrada" class="form-control">
+                        </div>
+                        <div class="form-group">
+
+                            <label>Descrição: </label>
+                            <input type="text" name="descricao_entrada" id="descricao_entrada" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Quantidade de X Dividida: </label>
+                            <input type="text" name="quantidade_de_x_dividido" id="quantidade_de_x_dividido" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Valor Mensal: </label>
+                            <input type="text" name="valor_mensal" id="valor_mensal" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Valor Total : </label>
+                            <input type="text" name="valor_total" id="valor_total" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Situação Entrada : </label>
+                            <input type="text" name="situacaoentrada" id="situacaoentrada" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria Entrada: </label>
+                            <input type="text" name="categoriaentrada" id="categoriaentrada" class="form-control">
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ferchar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- final do modal de adicionar entrada -->
+
+    <!-- tabela de entrada -->
 
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                    <th>Mês</th>
-                    <th>Descrição</th>
+                    <th>Data</th>
+                    <th>Categoria</th>
                     <th>Situação</th>
                     <th>Quantidade de X Dividido</th>
                     <th>Valor Dividido</th>
@@ -112,8 +178,8 @@
                 </thead>
                 <tfoot>
                 <tr>
-                    <th>Mês</th>
-                    <th>Descrição</th>
+                    <th>Data</th>
+                    <th>Categoria</th>
                     <th>Situação</th>
                     <th>Quantidade de X Dividido</th>
                     <th>Valor Dividido</th>
@@ -121,50 +187,130 @@
                 </tr>
                 </tfoot>
                 <tbody>
+                {% for entrada in entradas %}
                 <tr>
-                    <td>Janeiro</td>
-                    <td>Deantista</td>
-                    <td>Fixo</td>
-                    <td>12</td>
-                    <td>R$: 70,00</td>
-                    <td>R$: 840,00</td>
-                </tr>
+                    <td>{{entrada.data|date:'d/m/Y'}}</td>
+                    <td>{{entrada.categoriaentrada.descricao}}</td>
+                    <td>{{entrada.situacaoentrada.descricao}}</td>
+                    <td>{{entrada.quantidade_de_x_dividido}}</td>
+                    <td>R$ <span id="valor_mensal{{entrada.id}}">{{entrada.valor_mensal|floatformat:2}}</span></td>
+                    <td>R$ <span id="valor_total{{entrada.id}}">{{entrada.valor_total|floatformat:2}}</span></td>
+                    <td>
+                        <button class="btn-lixeira" data-target="#modalExcluir{{entrada.id}}" data-toggle="modal">
+                            <i class="fas fa-trash"></i>
+                        </button>
 
-                <tr>
-                    <td>Janeiro</td>
-                    <td>Cartão de Credito Pessoal</td>
-                    <td>Variavel</td>
-                    <td>12</td>
-                    <td>R$: 100,00</td>
-                    <td>R$: 1.000,00</td>
-                </tr>
+                    </td>
+                    <td>
+                        <button class="btn-lixeira" type="submit" data-target="#modalAlterar{{entrada.id}}"
+                                data-toggle="modal">
+                            <i class="fas fa-edit"></i>
+                        </button>
 
-                <tr>
-                    <td>Janeiro</td>
-                    <td>Rener</td>
-                    <td>Fixo</td>
-                    <td>6</td>
-                    <td>R$: 30,00</td>
-                    <td>R$: 180,00</td>
-                </tr>
-                <tr>
-                    <td>Janeiro</td>
-                    <td>C&A</td>
-                    <td>Fixo</td>
-                    <td>3</td>
-                    <td>R$: 10,00</td>
-                    <td>R$: 30,00</td>
-                </tr>
-
+                    </td>
 
                 </tbody>
+                <!-- Modal alterar entrada -->
+                <div class="modal fade" id="modalAlterar{{entrada.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Alterar Entrada</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{% url 'controle:alterarentrada' id=entrada.id %}" method="post">
+                                {%csrf_token%}
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>Data: </label>
+                                        <input type="date" name="data_alterar" id="data_alterar" value="{{entrada.data|date:'Y-m-d'}}" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descrição: </label>
+                                        <input type="text" name="descricao_alterar" id="descricao_alterar" value="{{entrada.descricao}}" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quantidade de X Dividido: </label>
+                                        <input type="text" name="quantidade_de_x_dividido_alterar" id="quantidade_de_x_dividido_alterar{{entrada.id}}"
+                                               value="{{entrada.quantidade_de_x_dividido}}"
+                                               class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Valor Mensal: </label>
+                                        <input type="text" name="valor_mensal_alterar" id="valor_mensal_alterar{{entrada.id}}"
+                                               value="{{entrada.valor_mensal_alterar|floatformat:2}}"
+                                               class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Valor Total: </label>
+                                        <input type="text" name="valor_total_alterar" id="valor_total_alterar{{entrada.id}}" value="{{entrada.valor_total_alterar|floatformat:2}}"
+                                               class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Situação: </label>
+                                        <input type="text" name="situacao_alterar" id="situacao_alterar" value="{{entrada.situacao_alterar.id}}" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Categoria: </label>
+                                        <input type="text" name="categoria_alterar" id="categoria_alterar" value="{{entrada.categoria_alterar.id}}" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                    <button type="submit" class="btn btn-primary">Savar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Final do modal alterar entrada -->
+
+                <!-- Modal excluir -->
+                <div class="modal fade" id="modalExcluir{{entrada.id}}" tabindex="-1"
+                     aria-labelledby="exampleModaExcluirlLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalExcluirLabel">Excluir Entrada</h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Deseja Excluir a Entrada {{entrada.categoria.descricao}}?
+                            </div>
+                            <div class="modal-footer">
+                                <form method="post" action="{% url 'controle:excluir_entrada' id=entrada.id %}">
+                                    {% csrf_token %}
+                                    <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">
+                                        Cancelar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        Sim
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Final do modal excluir entrada -->
+                {% endfor %}
             </table>
         </div>
     </div>
+    <!-- Final da tabela de entrada-->
 
-    <!-- End of Main Content -->
 
-    <!-- Footer -->
+    <!-- Final da pag -->
     <footer class="sticky-footer bg-white">
         <div class="container my-auto">
             <div class="copyright text-center my-auto">
@@ -172,17 +318,10 @@
             </div>
         </div>
     </footer>
-    <!-- End of Footer -->
+    <!-- acabou a pagina -->
 
 </div>
 
-
-<!-- /.container-fluid -->
-
-</div>
-
-
-<!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">
@@ -225,4 +364,7 @@
 <!-- Page level custom scripts -->
 <script src="js/demo/chart-area-demo.js"></script>
 <script src="js/demo/chart-pie-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
 {% endblock %}
