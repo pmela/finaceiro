@@ -1,0 +1,148 @@
+{% extends "menu.html" %}
+{%block menu%}
+{% load static %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Saidas</h1>
+
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+
+
+        <!-- Content Row -->
+        <!-- Begin Page Content -->
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Mês</th>
+                        <th>Descrição</th>
+                        <th>Situação</th>
+                        <th>Quantidade de X Dividido</th>
+                        <th>Valor Dividido</th>
+                        <th>Valor Total / Valor Restante</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Mês</th>
+                        <th>Descrição</th>
+                        <th>Situação</th>
+                        <th>Quantidade de X Dividido</th>
+                        <th>Valor Dividido</th>
+                        <th>Valor Total / Valor Restante</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr>
+                        <td>Janeiro</td>
+                        <td>Deantista</td>
+                        <td>Fixo</td>
+                        <td>12</td>
+                        <td>R$: 70,00</td>
+                        <td>R$: 840,00</td>
+                    </tr>
+
+                    <tr>
+                        <td>Janeiro</td>
+                        <td>Cartão de Credito Pessoal</td>
+                        <td>Variavel</td>
+                        <td>12</td>
+                        <td>R$: 100,00</td>
+                        <td>R$: 1.000,00</td>
+                    </tr>
+
+                    <tr>
+                        <td>Janeiro</td>
+                        <td>Rener</td>
+                        <td>Fixo</td>
+                        <td>6</td>
+                        <td>R$: 30,00</td>
+                        <td>R$: 180,00</td>
+                    </tr>
+                    <tr>
+                        <td>Janeiro</td>
+                        <td>C&A</td>
+                        <td>Fixo</td>
+                        <td>3</td>
+                        <td>R$: 10,00</td>
+                        <td>R$: 30,00</td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto" align="center">
+                    <span>Desenvolvido por Pamela Araujo - Pxtech</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+    </div>
+</div>
+
+
+<!-- /.container-fluid -->
+
+</div>
+
+
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="js/demo/chart-area-demo.js"></script>
+<script src="js/demo/chart-pie-demo.js"></script>
+{% endblock %}

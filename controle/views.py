@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from .models import *
 
-# Create your views here.
+
+def entradas(request):
+    return render(request, "entradas.html")
+
+
+def saidas(request):
+    return render(request, "saidas.html")
