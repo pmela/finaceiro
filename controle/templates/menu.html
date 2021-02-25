@@ -45,12 +45,12 @@
             Entradas e Saídas
         </div>
         <li class="nav-item active">
-            <a class="nav-link" href="saidas.html">
-                <i class="fas fa-coins"></i> <span>Saídas</span></a>
+            <a class="nav-link" href="{% url 'controle:entradas' %}">
+                <i class="fas fa-coins"></i> <span>Entradas</span></a>
         </li>
         <li class="nav-item active">
-            <a class="nav-link" href="entradas.html">
-                <i class="fas fa-coins"></i> <span>Entradas</span></a>
+            <a class="nav-link" href="{% url 'controle:saidas' %}">
+                <i class="fas fa-coins"></i> <span>Saídas</span></a>
         </li>
 
 
@@ -65,13 +65,12 @@
 
         <!-- Nav Item - Tables -->
         <li class="nav-item active">
-            <a class="nav-link" href="saidas.html">
+            <a class="nav-link" href="{% url 'controle:totalanual' %}">
                 <i class="fas fa-money-check-alt"></i> <span>Total Anual</span></a>
         </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
-
 
 
         <!-- Sidebar Message -->

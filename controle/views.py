@@ -8,3 +8,7 @@ def entradas(request):
 
 def saidas(request):
     return render(request, "saidas.html")
+
+
+def totalanual(request):
+    return render(request, "totalanual.html")
