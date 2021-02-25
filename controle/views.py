@@ -3,6 +3,8 @@ from .models import *
 
 from django.shortcuts import redirect
 
+def login(requisicao):
+    return render(requisicao, 'telaDeLogin.html')
 
 def entradas(requisicao):
     todos_entradas = Entrada.objects.all()
@@ -48,10 +50,10 @@ def alterar_entrada(requisicao, id=None):
     return redirect('controle:entradas')
 
 
-def excluir_entrada(request, id=None):
-    if request.method == 'POST':
-        entradas = Entrada.objects.get(id=id)
-        entradas.delete()
+def excluir_entrada(requisicao, id=None):
+    if requisicao.method == 'POST':
+        entrada = Entrada.objects.get(id=id)
+        entrada.delete()
         return redirect('controle:entradas')
     return render()
 

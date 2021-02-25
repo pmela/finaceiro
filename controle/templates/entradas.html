@@ -179,6 +179,7 @@
                 <tfoot>
                 <tr>
                     <th>Data</th>
+                    <th>Descrição</th>
                     <th>Categoria</th>
                     <th>Situação</th>
                     <th>Quantidade de X Dividido</th>
@@ -190,20 +191,21 @@
                 {% for entrada in entradas %}
                 <tr>
                     <td>{{entrada.data|date:'d/m/Y'}}</td>
+                    <td>{{entrada.descricao}}</td>
                     <td>{{entrada.categoriaentrada.descricao}}</td>
                     <td>{{entrada.situacaoentrada.descricao}}</td>
                     <td>{{entrada.quantidade_de_x_dividido}}</td>
-                    <td>R$ <span id="valor_mensal{{entrada.id}}">{{entrada.valor_mensal|floatformat:2}}</span></td>
-                    <td>R$ <span id="valor_total{{entrada.id}}">{{entrada.valor_total|floatformat:2}}</span></td>
+                    <td>R$ <span id="valormensal{{entrada.id}}">{{entrada.valor_mensal|floatformat:2}}</span></td>
+                    <td>R$ <span id="valortotal{{entrada.id}}">{{entrada.valor_total|floatformat:2}}</span></td>
                     <td>
-                        <button class="btn-lixeira" data-target="#modalExcluir{{entrada.id}}" data-toggle="modal">
+                        <button class="btn-lixeira" data-bs-target="#modalExcluir{{entrada.id}}" data-bs-toggle="modal">
                             <i class="fas fa-trash"></i>
                         </button>
 
                     </td>
                     <td>
-                        <button class="btn-lixeira" type="submit" data-target="#modalAlterar{{entrada.id}}"
-                                data-toggle="modal">
+                        <button class="btn-lixeira" type="submit" data-bs-target="#modalAlterar{{entrada.id}}"
+                                data-bs-toggle="modal">
                             <i class="fas fa-edit"></i>
                         </button>
 
@@ -217,7 +219,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Alterar Entrada</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -234,35 +236,35 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Quantidade de X Dividido: </label>
-                                        <input type="text" name="quantidade_de_x_dividido_alterar" id="quantidade_de_x_dividido_alterar{{entrada.id}}"
+                                        <input type="text" name="quantidade_de_x_dividido_alterar" id="quantidade_de_x_dividido{{entrada.id}}"
                                                value="{{entrada.quantidade_de_x_dividido}}"
                                                class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label>Valor Mensal: </label>
-                                        <input type="text" name="valor_mensal_alterar" id="valor_mensal_alterar{{entrada.id}}"
-                                               value="{{entrada.valor_mensal_alterar|floatformat:2}}"
+                                        <input type="text" name="valor_mensal_alterar" id="valor_mensal{{entrada.id}}"
+                                               value="{{entrada.valor_mensal|floatformat:2}}"
                                                class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label>Valor Total: </label>
-                                        <input type="text" name="valor_total_alterar" id="valor_total_alterar{{entrada.id}}" value="{{entrada.valor_total_alterar|floatformat:2}}"
+                                        <input type="text" name="valor_total_alterar" id="valor_total{{entrada.id}}" value="{{entrada.valor_total|floatformat:2}}"
                                                class="form-control">
                                     </div>
 
                                     <div class="form-group">
                                         <label>Situação: </label>
-                                        <input type="text" name="situacao_alterar" id="situacao_alterar" value="{{entrada.situacao_alterar.id}}" class="form-control">
+                                        <input type="text" name="situacao_alterar" id="situacao_alterar" value="{{entrada.situacaoentrada.descricao}}" class="form-control">
                                     </div>
 
                                     <div class="form-group">
                                         <label>Categoria: </label>
-                                        <input type="text" name="categoria_alterar" id="categoria_alterar" value="{{entrada.categoria_alterar.id}}" class="form-control">
+                                        <input type="text" name="categoria_alterar" id="categoria_alterar" value="{{entrada.categoriaentrada.descricao}}" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                                     <button type="submit" class="btn btn-primary">Savar</button>
                                 </div>
                             </form>
@@ -279,7 +281,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalExcluirLabel">Excluir Entrada</h5>
-                                <button type="button" class="close" data-dismiss="modal"
+                                <button type="button" class="close" data-bs-dismiss="modal"
                                         aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -291,7 +293,7 @@
                                 <form method="post" action="{% url 'controle:excluir_entrada' id=entrada.id %}">
                                     {% csrf_token %}
                                     <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">
+                                            data-bs-dismiss="modal">
                                         Cancelar
                                     </button>
                                     <button type="submit" class="btn btn-primary">
@@ -335,13 +337,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
                 <a class="btn btn-primary" href="login.html">Logout</a>
             </div>
         </div>
