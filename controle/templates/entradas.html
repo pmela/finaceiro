@@ -12,17 +12,17 @@
 
     <!-- Content Row -->
     <div class="row">
-
-        <!-- Earnings (Monthly) Card Example -->
+        {%for card in cards%}
+        <!-- Card entrada -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card border-left-{{card.cor}} shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Divida Mensal
+                                {{card.descricao}}
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$: 652,38</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$: {{card.valor}}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -31,67 +31,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Entrada Mensal
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$: 500,00</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Falta
-                            </div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">R$: 152,38</div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pending Requests Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Valor da Divida do Proximo Mês :
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$: 896,00</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {%endfor%}
     </div>
 
 
@@ -141,8 +81,11 @@
                             <input type="text" name="valor_total" id="valor_total" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>Situação Entrada : </label>
-                            <input type="text" name="situacaoentrada" id="situacaoentrada" class="form-control">
+                            <label>Situação: </label>
+                            <select name="situacao" id="situacao" class="form-select" aria-label="Default select example">
+                                <option value="fixo">Fixo</option>
+                                <option value="variavel">Variável</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Categoria Entrada: </label>
@@ -169,11 +112,14 @@
                 <thead>
                 <tr>
                     <th>Data</th>
+                    <th>Descrição</th>
                     <th>Categoria</th>
                     <th>Situação</th>
                     <th>Quantidade de X Dividido</th>
                     <th>Valor Dividido</th>
                     <th>Valor Total / Valor Restante</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tfoot>
@@ -185,6 +131,8 @@
                     <th>Quantidade de X Dividido</th>
                     <th>Valor Dividido</th>
                     <th>Valor Total / Valor Restante</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 </tfoot>
                 <tbody>
@@ -192,8 +140,8 @@
                 <tr>
                     <td>{{entrada.data|date:'d/m/Y'}}</td>
                     <td>{{entrada.descricao}}</td>
-                    <td>{{entrada.categoriaentrada.descricao}}</td>
-                    <td>{{entrada.situacaoentrada.descricao}}</td>
+                    <td>{{entrada.categoria.descricao}}</td>
+                    <td>{{entrada.situacao}}</td>
                     <td>{{entrada.quantidade_de_x_dividido}}</td>
                     <td>R$ <span id="valormensal{{entrada.id}}">{{entrada.valor_mensal|floatformat:2}}</span></td>
                     <td>R$ <span id="valortotal{{entrada.id}}">{{entrada.valor_total|floatformat:2}}</span></td>
@@ -254,7 +202,10 @@
 
                                     <div class="form-group">
                                         <label>Situação: </label>
-                                        <input type="text" name="situacao_alterar" id="situacao_alterar" value="{{entrada.situacaoentrada.descricao}}" class="form-control">
+                                        <select name="situacao_alterar" id="situacao_alterar" class="form-select" aria-label="Default select example">
+                                            <option value="fixo">Fixo</option>
+                                            <option value="variavel">Variável</option>
+                                        </select>
                                     </div>
 
                                     <div class="form-group">
