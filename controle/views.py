@@ -49,36 +49,59 @@ def entradas(requisicao):
     return render(requisicao, 'entradas.html', contexto)
 
 
-def alterar_entrada(requisicao, id=None):
+def alterar_caixa(requisicao, id=None):
     if requisicao.method == 'POST':
-        entrada = Caixa.objects.get(id=id)
-        entrada.data = requisicao.POST.get('data_alterar', None)
-        entrada.categoria.descricao = requisicao.POST.get('descricao_alterar', None)
-        entrada.quantidade_de_x_dividido = requisicao.POST.get('quantidade_de_x_dividido_alterar', None)
-        entrada.valor_mensal = requisicao.POST.get('valor_mensal_alterar', None)
-        entrada.valor_total = requisicao.POST.get('valor_total_alterar', None)
-        entrada.tipo = requisicao.POST.get('tipo', None)
+        caixa = Caixa.objects.get(id=id)
+        caixa.data = requisicao.POST.get('data_alterar', None)
+        caixa.descricao = requisicao.POST.get('descricao_alterar', None)
+        caixa.quantidade_de_x_dividido = requisicao.POST.get('quantidade_de_x_dividido_alterar', None)
+        caixa.valor_mensal = requisicao.POST.get('valor_mensal_alterar', None)
+        caixa.valor_total = requisicao.POST.get('valor_total_alterar', None)
         if Categoria.objects.filter(descricao__iexact=requisicao.POST.get('categoria_alterar')).exists():
-            entrada.categoria = Categoria.objects.get(descricao=requisicao.POST.get('categoria_alterar', None))
+            caixa.categoria = Categoria.objects.get(descricao=requisicao.POST.get('categoria_alterar', None))
         else:
             categoria = Categoria(descricao=requisicao.POST.get('categoria_alterar'))
             categoria.save()
-            entrada.categoria = categoria
-        entrada.save()
+            caixa.categoria = categoria
+        caixa.save()
 
-    return redirect('controle:entradas')
+    return redirect('controle:'+ caixa.tipo)
 
 
-def excluir_entrada(requisicao, id=None):
+def excluir_caixa(requisicao, id=None):
     if requisicao.method == 'POST':
-        entrada = Caixa.objects.get(id=id)
-        entrada.delete()
-        return redirect('controle:entradas')
+        caixa = Caixa.objects.get(id=id)
+        tipo=caixa.tipo
+        caixa.delete()
+        return redirect('controle:'+ tipo)
     return render()
 
 
-def saidas(request):
-    return render(request, "saidas.html")
+def saidas(requisicao,):
+    todos_saidas = Caixa.objects.filter(tipo='saidas')
+    if requisicao.method == 'POST':
+        saida = Caixa()
+        saida.data = requisicao.POST.get('data_saida', None)
+        saida.descricao = requisicao.POST.get('descricao_saida', None)
+        saida.quantidade_de_x_dividido = requisicao.POST.get('quantidade_de_x_dividido', None)
+        saida.valor_mensal = requisicao.POST.get('valor_mensal', None)
+        saida.valor_total = requisicao.POST.get('valor_total', None)
+        saida.tipo = 'saidas'
+        saida.situacao = requisicao.POST.get('situacao')
+        if Categoria.objects.filter(descricao__iexact=requisicao.POST.get('categoriasaida')).exists():
+            saida.categoria = Categoria.objects.get(descricao=requisicao.POST.get('categoriasaida', None))
+        else:
+            categoria = Categoria(descricao=requisicao.POST.get('categoriasaida'))
+            categoria.save()
+            saida.categoria = categoria
+        saida.save()
+
+    contexto = {
+        'saidas': todos_saidas,
+        'categoriasaida': Categoria.objects.all(),
+
+    }
+    return render(requisicao, "saidas.html",contexto)
 
 
 def totalanual(request):

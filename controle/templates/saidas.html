@@ -4,105 +4,250 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-    <!-- Page Heading -->
+
+    <!-- Button adicionar saida -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Saidas</h1>
-
+        <h1 class="h3 mb-0 text-gray-800">Saídas</h1>
+        <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
+                data-bs-target="#modal_saida">
+            <i class="fas text-white-50"></i>
+            Adicionar Saida
+        </button>
     </div>
+    <!-- Final do button adicionar saida -->
 
-    <!-- Content Row -->
-    <div class="row">
+    <!-- Modal adicionar saida -->
+    <div class="modal fade" id="modal_saida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Saída</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{% url 'controle:saidas' %}" method="post">
+                    {%csrf_token%}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Data: </label>
+                            <input type="date" name="data_saida" id="data_saida" class="form-control">
+                        </div>
+                        <div class="form-group">
 
+                            <label>Descrição: </label>
+                            <input type="text" name="descricao_saida" id="descricao_saida" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Quantidade de X Dividida: </label>
+                            <input type="text" name="quantidade_de_x_dividido" id="quantidade_de_x_dividido" class="form-control">
+                        </div>
 
-        <!-- Content Row -->
-        <!-- Begin Page Content -->
+                        <div class="form-group">
+                            <label>Valor Mensal: </label>
+                            <input type="text" name="valor_mensal" id="valor_mensal" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Valor Total : </label>
+                            <input type="text" name="valor_total" id="valor_total" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Situação: </label>
+                            <select name="situacao" id="situacao" class="form-select" aria-label="Default select example">
+                                <option value="fixo">Fixo</option>
+                                <option value="variavel">Variável</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria : </label>
+                            <input type="text" name="categoriasaida" id="categoriasaida" class="form-control">
+                        </div>
 
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th>Mês</th>
-                        <th>Descrição</th>
-                        <th>Situação</th>
-                        <th>Quantidade de X Dividido</th>
-                        <th>Valor Dividido</th>
-                        <th>Valor Total / Valor Restante</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Mês</th>
-                        <th>Descrição</th>
-                        <th>Situação</th>
-                        <th>Quantidade de X Dividido</th>
-                        <th>Valor Dividido</th>
-                        <th>Valor Total / Valor Restante</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    <tr>
-                        <td>Janeiro</td>
-                        <td>Deantista</td>
-                        <td>Fixo</td>
-                        <td>12</td>
-                        <td>R$: 70,00</td>
-                        <td>R$: 840,00</td>
-                    </tr>
+                    </div>
 
-                    <tr>
-                        <td>Janeiro</td>
-                        <td>Cartão de Credito Pessoal</td>
-                        <td>Variavel</td>
-                        <td>12</td>
-                        <td>R$: 100,00</td>
-                        <td>R$: 1.000,00</td>
-                    </tr>
-
-                    <tr>
-                        <td>Janeiro</td>
-                        <td>Rener</td>
-                        <td>Fixo</td>
-                        <td>6</td>
-                        <td>R$: 30,00</td>
-                        <td>R$: 180,00</td>
-                    </tr>
-                    <tr>
-                        <td>Janeiro</td>
-                        <td>C&A</td>
-                        <td>Fixo</td>
-                        <td>3</td>
-                        <td>R$: 10,00</td>
-                        <td>R$: 30,00</td>
-                    </tr>
-
-
-                    </tbody>
-                </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ferchar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
             </div>
         </div>
-
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto" align="center">
-                    <span>Desenvolvido por Pamela Araujo - Pxtech</span>
-                </div>
-            </div>
-        </footer>
-        <!-- End of Footer -->
     </div>
+    <!-- final do modal de adicionar saida -->
+
+    <!-- tabela de saida -->
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Categoria</th>
+                    <th>Situação</th>
+                    <th>Nome do Devedor</th>
+                    <th>Quantidade de X Dividido</th>
+                    <th>Valor Dividido</th>
+                    <th>Valor Total / Valor Restante</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Categoria</th>
+                    <th>Situação</th>
+                    <th>Nome do Devedor</th>
+                    <th>Quantidade de X Dividido</th>
+                    <th>Valor Dividido</th>
+                    <th>Valor Total / Valor Restante</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </tfoot>
+                <tbody>
+                {% for saida in saidas %}
+                <tr>
+                    <td>{{saida.data|date:'d/m/Y'}}</td>
+                    <td>{{saida.descricao}}</td>
+                    <td>{{saida.categoria.descricao}}</td>
+                    <td>{{saida.situacao}}</td>
+                    <td>{{saida.nome_devedor}}</td>
+                    <td>{{saida.quantidade_de_x_dividido}}</td>
+                    <td>R$ <span id="valormensal{{saida.id}}">{{saida.valor_mensal|floatformat:2}}</span></td>
+                    <td>R$ <span id="valortotal{{saida.id}}">{{saida.valor_total|floatformat:2}}</span></td>
+                    <td>
+                        <button class="btn-lixeira" data-bs-target="#modalExcluir{{saida.id}}" data-bs-toggle="modal">
+                            <i class="fas fa-trash"></i>
+                        </button>
+
+                    </td>
+                    <td>
+                        <button class="btn-lixeira" type="submit" data-bs-target="#modalAlterar{{saida.id}}"
+                                data-bs-toggle="modal">
+                            <i class="fas fa-edit"></i>
+                        </button>
+
+                    </td>
+
+                </tbody>
+                <!-- Modal alterar saida -->
+                <div class="modal fade" id="modalAlterar{{saida.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Alterar Saída</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{% url 'controle:alterarcaixa' id=saida.id %}" method="post">
+                                {%csrf_token%}
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>Data: </label>
+                                        <input type="date" name="data_alterar" id="data_alterar" value="{{saida.data|date:'Y-m-d'}}" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descrição: </label>
+                                        <input type="text" name="descricao_alterar" id="descricao_alterar" value="{{saida.descricao}}" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quantidade de X Dividido: </label>
+                                        <input type="text" name="quantidade_de_x_dividido_alterar" id="quantidade_de_x_dividido{{saida.id}}"
+                                               value="{{saida.quantidade_de_x_dividido}}"
+                                               class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Valor Mensal: </label>
+                                        <input type="text" name="valor_mensal_alterar" id="valor_mensal{{saida.id}}"
+                                               value="{{saida.valor_mensal|floatformat:2}}"
+                                               class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Valor Total: </label>
+                                        <input type="text" name="valor_total_alterar" id="valor_total{{saida.id}}" value="{{saida.valor_total|floatformat:2}}"
+                                               class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Situação: </label>
+                                        <select name="situacao_alterar" id="situacao_alterar" class="form-select" aria-label="Default select example">
+                                            <option value="fixo">Fixo</option>
+                                            <option value="variavel">Variável</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Categoria: </label>
+                                        <input type="text" name="categoria_alterar" id="categoria_alterar" value="{{saida.categoria.descricao}}" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Final do modal alterar saida -->
+
+                <!-- Modal excluir -->
+                <div class="modal fade" id="modalExcluir{{saida.id}}" tabindex="-1"
+                     aria-labelledby="exampleModaExcluirlLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalExcluirLabel">Excluir Saída</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Deseja Excluir a Saída {{saida.categoria.descricao}}?
+                            </div>
+                            <div class="modal-footer">
+                                <form method="post" action="{% url 'controle:excluir_caixa' id=saida.id %}">
+                                    {% csrf_token %}
+                                    <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">
+                                        Cancelar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        Sim
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Final do modal excluir saida -->
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <!-- Final da tabela de saida-->
+
+
+    <!-- Final da pag -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Desenvolvido por Pamela Araujo - Pxtech</span>
+            </div>
+        </div>
+    </footer>
+    <!-- acabou a pagina -->
+
 </div>
 
-
-<!-- /.container-fluid -->
-
-</div>
-
-
-<!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">
@@ -116,13 +261,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
                 <a class="btn btn-primary" href="login.html">Logout</a>
             </div>
         </div>
@@ -145,4 +290,7 @@
 <!-- Page level custom scripts -->
 <script src="js/demo/chart-area-demo.js"></script>
 <script src="js/demo/chart-pie-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
 {% endblock %}
