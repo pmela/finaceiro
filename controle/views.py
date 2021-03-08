@@ -115,7 +115,15 @@ def totalanual(request):
             totalentradas.append(valores)
         else:
             totalentradas.append(0)
+    totalsaidas = []
+    for x in range(1, 13):
+        valores = Caixa.objects.filter(tipo='saidas', data__month=x).aggregate(Sum('valor_mensal')).get('valor_mensal__sum')
+        if valores is not None:
+            totalsaidas.append(valores)
+        else:
+            totalsaidas.append(0)
     contexto = {
-        'totalentradas': totalentradas
+        'totalentradas': totalentradas,
+        'totalsaidas': totalsaidas
     }
     return render(request, "totalanual.html", contexto)
