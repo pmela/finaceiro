@@ -57,6 +57,8 @@ def alterar_caixa(requisicao, id=None):
         caixa.quantidade_de_x_dividido = requisicao.POST.get('quantidade_de_x_dividido_alterar', None)
         caixa.valor_mensal = requisicao.POST.get('valor_mensal_alterar', None)
         caixa.valor_total = requisicao.POST.get('valor_total_alterar', None)
+        caixa.situacao = requisicao.POST.get('situacao_alterar')
+
         if Categoria.objects.filter(descricao__iexact=requisicao.POST.get('categoria_alterar')).exists():
             caixa.categoria = Categoria.objects.get(descricao=requisicao.POST.get('categoria_alterar', None))
         else:

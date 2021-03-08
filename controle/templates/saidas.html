@@ -37,6 +37,7 @@
                             <label>Descrição: </label>
                             <input type="text" name="descricao_saida" id="descricao_saida" class="form-control">
                         </div>
+
                         <div class="form-group">
                             <label>Quantidade de X Dividida: </label>
                             <input type="text" name="quantidade_de_x_dividido" id="quantidade_de_x_dividido" class="form-control">
@@ -85,7 +86,6 @@
                     <th>Descrição</th>
                     <th>Categoria</th>
                     <th>Situação</th>
-                    <th>Nome do Devedor</th>
                     <th>Quantidade de X Dividido</th>
                     <th>Valor Dividido</th>
                     <th>Valor Total / Valor Restante</th>
@@ -95,11 +95,10 @@
                 </thead>
                 <tfoot>
                 <tr>
-                    <th>Data</th>
+                     <th>Data</th>
                     <th>Descrição</th>
                     <th>Categoria</th>
                     <th>Situação</th>
-                    <th>Nome do Devedor</th>
                     <th>Quantidade de X Dividido</th>
                     <th>Valor Dividido</th>
                     <th>Valor Total / Valor Restante</th>
@@ -114,7 +113,6 @@
                     <td>{{saida.descricao}}</td>
                     <td>{{saida.categoria.descricao}}</td>
                     <td>{{saida.situacao}}</td>
-                    <td>{{saida.nome_devedor}}</td>
                     <td>{{saida.quantidade_de_x_dividido}}</td>
                     <td>R$ <span id="valormensal{{saida.id}}">{{saida.valor_mensal|floatformat:2}}</span></td>
                     <td>R$ <span id="valortotal{{saida.id}}">{{saida.valor_total|floatformat:2}}</span></td>
