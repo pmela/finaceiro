@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import *
 from .utilitarios.card import *
 from django.shortcuts import redirect
+from django.db.models import Sum
 
 
 def login(requisicao):
@@ -67,19 +68,19 @@ def alterar_caixa(requisicao, id=None):
             caixa.categoria = categoria
         caixa.save()
 
-    return redirect('controle:'+ caixa.tipo)
+    return redirect('controle:' + caixa.tipo)
 
 
 def excluir_caixa(requisicao, id=None):
     if requisicao.method == 'POST':
         caixa = Caixa.objects.get(id=id)
-        tipo=caixa.tipo
+        tipo = caixa.tipo
         caixa.delete()
-        return redirect('controle:'+ tipo)
+        return redirect('controle:' + tipo)
     return render()
 
 
-def saidas(requisicao,):
+def saidas(requisicao, ):
     todos_saidas = Caixa.objects.filter(tipo='saidas')
     if requisicao.method == 'POST':
         saida = Caixa()
@@ -103,8 +104,18 @@ def saidas(requisicao,):
         'categoriasaida': Categoria.objects.all(),
 
     }
-    return render(requisicao, "saidas.html",contexto)
+    return render(requisicao, "saidas.html", contexto)
 
 
 def totalanual(request):
-    return render(request, "totalanual.html")
+    totalentradas = []
+    for x in range(1, 13):
+        valores = Caixa.objects.filter(tipo='entradas', data__month=x).aggregate(Sum('valor_mensal')).get('valor_mensal__sum')
+        if valores is not None:
+            totalentradas.append(valores)
+        else:
+            totalentradas.append(0)
+    contexto = {
+        'totalentradas': totalentradas
+    }
+    return render(request, "totalanual.html", contexto)
